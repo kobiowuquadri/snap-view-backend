@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
-
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { AuthModule } from './auth/auth.module';
+import { FirebaseModule } from './firebase/firebase.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(),
+  imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
+      imports: [ConfigModule,],
       inject: [ConfigService],
       useFactory: async (configservice: ConfigService) => ({
         type: 'postgres',
@@ -19,7 +21,9 @@ import { join } from 'path';
         entities: [join(process.cwd(), 'dist/**/*.entity.js')],
         logging: true, 
       })
-    })
+    }),
+    AuthModule,
+    FirebaseModule,
   ],
 })
 export class AppModule {}
