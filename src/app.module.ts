@@ -16,14 +16,15 @@ import { DataService } from './data/data.service';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
-        host: configService.get('DB_HOST'),
-        port: configService.get('DB_PORT'),
-        username: configService.get('DB_USERNAME'),
-        password: configService.get('DB_PASSWORD'),
-        database: configService.get('DB_NAME'),
+        url: configService.get('DB_URL'),
         entities: [join(process.cwd(), 'dist/**/*.entity.js')],
         logging: true, 
         synchronize: true,
+        retryAttempts: 5, // Number of retry attempts
+        retryDelay: 3000, 
+        ssl: {
+          rejectUnauthorized: false, // For development only; consider configuring SSL properly for production
+        },
       }),
     }),
     AuthModule,
