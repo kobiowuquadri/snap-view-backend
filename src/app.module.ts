@@ -4,26 +4,32 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { FirebaseModule } from './firebase/firebase.module';
+import { DataModule } from './data/data.module';
+import { DataController } from './data/data.controller';
+import { DataService } from './data/data.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule,],
+      imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configservice: ConfigService) => ({
+      useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
-        host: configservice.get('DB_HOST'),
-        port: configservice.get('DB_PORT'),
-        username: configservice.get('DB_USERNAME'),
-        password: configservice.get('DB_PASSWORD'),
-        database: configservice.get('DB_NAME'),
+        host: configService.get('DB_HOST'),
+        port: configService.get('DB_PORT'),
+        username: configService.get('DB_USERNAME'),
+        password: configService.get('DB_PASSWORD'),
+        database: configService.get('DB_NAME'),
         entities: [join(process.cwd(), 'dist/**/*.entity.js')],
         logging: true, 
-      })
+      }),
     }),
     AuthModule,
     FirebaseModule,
+    DataModule, // Add DataModule here
   ],
+  controllers: [DataController],
+  providers: [DataService],
 })
 export class AppModule {}
