@@ -1,7 +1,19 @@
-import { Body, Controller, Post, Get } from '@nestjs/common';
+import { Controller, Post, Get, Body } from '@nestjs/common';
 import { DataService } from './data.service';
 import { DataDto } from './dto/data.dto';
 import { DataEntity } from './data.entity';
+import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Request, Response, NextFunction } from 'express';
+
+// Middleware to apply CORS to specific routes
+@Injectable()
+export class CorsMiddleware implements NestMiddleware {
+  use(req: Request, res: Response, next: NextFunction) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+  }
+}
 
 @Controller('data')
 export class DataController {

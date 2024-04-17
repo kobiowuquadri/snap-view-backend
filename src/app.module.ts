@@ -23,11 +23,12 @@ import { DataService } from './data/data.service';
         database: configService.get('DB_NAME'),
         entities: [join(process.cwd(), 'dist/**/*.entity.js')],
         logging: true, 
+        synchronize: true,
       }),
     }),
     AuthModule,
     FirebaseModule,
-    DataModule, // Add DataModule here
+    DataModule, 
   ],
   controllers: [DataController],
   providers: [DataService],
