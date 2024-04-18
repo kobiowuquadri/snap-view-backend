@@ -1,13 +1,15 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { DataEntity } from './data.entity';
-import { DataEntityRepository } from './data.respository';
+import {Injectable } from '@nestjs/common';
+import { DataEntity } from './entities/data.entity';
+import { Connection, Repository } from 'typeorm';
+
 
 @Injectable()
 export class DataService {
-  constructor(
-    @Inject(forwardRef(() => DataEntityRepository))
-    private readonly dataEntityRepository: DataEntityRepository,
-  ) {}
+  private readonly dataEntityRepository: Repository<DataEntity>;
+  constructor(private readonly connection: Connection) {
+    this.dataEntityRepository = this.connection.getRepository(DataEntity);
+  }
+
 
   async saveData(
     companyName: string,

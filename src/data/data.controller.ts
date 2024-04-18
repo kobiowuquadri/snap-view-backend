@@ -1,7 +1,7 @@
 import { Controller, Post, Get, Body } from '@nestjs/common';
 import { DataService } from './data.service';
 import { DataDto } from './dto/data.dto';
-import { DataEntity } from './data.entity';
+import { DataEntity } from './entities/data.entity';
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 

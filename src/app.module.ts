@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { DataModule } from './data/data.module';
 import { DataController } from './data/data.controller';
 import { DataService } from './data/data.service';
+import { DataEntity } from './data/entities/data.entity';
 
 @Module({
   imports: [
@@ -17,19 +17,19 @@ import { DataService } from './data/data.service';
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
         url: configService.get('DB_URL'),
-        entities: [join(process.cwd(), 'dist/**/*.entity.js')],
+        entities: [DataEntity],
         logging: true, 
         synchronize: true,
-        retryAttempts: 5, // Number of retry attempts
+        retryAttempts: 5, 
         retryDelay: 3000, 
         ssl: {
-          rejectUnauthorized: false, // For development only; consider configuring SSL properly for production
+          rejectUnauthorized: false,
         },
       }),
     }),
+    DataModule, 
     AuthModule,
     FirebaseModule,
-    DataModule, 
   ],
   controllers: [DataController],
   providers: [DataService],

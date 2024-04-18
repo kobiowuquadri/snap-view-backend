@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataEntity } from './data.entity';
-import { DataEntityRepository } from './data.respository';
+import { DataEntity } from './entities/data.entity';
+import { DataController } from './data.controller';
+import { DataService } from './data.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([DataEntity, DataEntityRepository])],
-  providers: [DataEntityRepository],
-  exports: [DataEntityRepository],
+  imports: [TypeOrmModule.forFeature([DataEntity])],
+  controllers: [DataController],
+  providers: [DataService, DataEntity],
+
 })
 export class DataModule {}
