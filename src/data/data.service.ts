@@ -1,13 +1,13 @@
-import {Injectable } from '@nestjs/common';
-import { DataEntity } from './entities/data.entity';
-import { Connection, Repository } from 'typeorm';
+import {Injectable } from '@nestjs/common'
+import { DataEntity } from './entities/data.entity'
+import { Connection, Repository } from 'typeorm'
 
 
 @Injectable()
 export class DataService {
-  private readonly dataEntityRepository: Repository<DataEntity>;
+  private readonly dataEntityRepository: Repository<DataEntity>
   constructor(private readonly connection: Connection) {
-    this.dataEntityRepository = this.connection.getRepository(DataEntity);
+    this.dataEntityRepository = this.connection.getRepository(DataEntity)
   }
 
 
@@ -22,8 +22,8 @@ export class DataService {
       numOfUsers,
       numOfProducts,
       percentage,
-    });
-    return await this.dataEntityRepository.save(newData);
+    })
+    return await this.dataEntityRepository.save(newData)
   }
 
   async getRecentData(): Promise<DataEntity | null> {
@@ -31,6 +31,7 @@ export class DataService {
       order: {
         createdAt: 'DESC',
       },
-    });
+      where: {},
+    })
   }
 }

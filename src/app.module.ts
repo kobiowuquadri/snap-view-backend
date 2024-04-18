@@ -1,12 +1,12 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
-import { FirebaseModule } from './firebase/firebase.module';
-import { DataModule } from './data/data.module';
-import { DataController } from './data/data.controller';
-import { DataService } from './data/data.service';
-import { DataEntity } from './data/entities/data.entity';
+import { Module } from '@nestjs/common'
+import { ConfigModule, ConfigService } from '@nestjs/config'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { AuthModule } from './auth/auth.module'
+import { FirebaseModule } from './firebase/firebase.module'
+import { DataModule } from './data/data.module'
+import { DataController } from './data/data.controller'
+import { DataService } from './data/data.service'
+import { DataEntity } from './data/entities/data.entity'
 
 @Module({
   imports: [

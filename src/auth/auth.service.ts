@@ -1,5 +1,5 @@
-import { Injectable, Inject } from '@nestjs/common';
-import * as admin from 'firebase-admin';
+import { Injectable, Inject } from '@nestjs/common'
+import * as admin from 'firebase-admin'
 
 @Injectable()
 export class AuthService {
@@ -8,7 +8,7 @@ export class AuthService {
   ) {}
 
   async verifyIdToken(idToken: string): Promise<string> {
-    const decodedToken = await this.firebaseAdmin.auth().verifyIdToken(idToken);
-    return decodedToken.uid;
+    const decodedToken = await this.firebaseAdmin.auth().verifyIdToken(idToken)
+    return decodedToken.uid
   }
 }

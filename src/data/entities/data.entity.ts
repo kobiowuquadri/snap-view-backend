@@ -1,22 +1,22 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm'
 
 @Entity('data')
 export class DataEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: number
 
   @Column()
-  companyName: string;
+  companyName: string
 
   @Column()
-  numOfUsers: number;
+  numOfUsers: number
 
   @Column()
-  numOfProducts: number;
+  numOfProducts: number
 
   @Column()
-  percentage: number;
+  percentage: number
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
+  createdAt: Date
 }

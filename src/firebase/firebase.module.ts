@@ -1,8 +1,8 @@
-import { Module } from '@nestjs/common';
-import * as admin from 'firebase-admin';
-import * as dotenv from 'dotenv';
+import { Module } from '@nestjs/common'
+import * as admin from 'firebase-admin'
+import * as dotenv from 'dotenv'
 
-dotenv.config(); 
+dotenv.config() 
 
 @Module({
   providers: [
@@ -20,8 +20,8 @@ dotenv.config();
             auth_provider_x509_cert_url: process.env.AUTH_PROVIDER_X509_CERT_URL,
             client_x509_cert_url: process.env.CLIENT_X509_CERT_URL,
           } as admin.ServiceAccount), 
-        });
-        return firebaseAdmin;
+        })
+        return firebaseAdmin
       },
     },
   ],

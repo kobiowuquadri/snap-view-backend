@@ -1,5 +1,5 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { Controller, Post, Body } from '@nestjs/common'
+import { AuthService } from './auth.service'
 
 @Controller('auth')
 export class AuthController {
@@ -7,7 +7,7 @@ export class AuthController {
 
   @Post('verifyToken')
   async verifyToken(@Body() body: { idToken: string }): Promise<string> {
-    const uid = await this.authService.verifyIdToken(body.idToken);
-    return `User ID: ${uid}`;
+    const uid = await this.authService.verifyIdToken(body.idToken)
+    return `User ID: ${uid}`
   }
 }
