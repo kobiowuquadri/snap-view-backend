@@ -1,21 +1,12 @@
-import { Controller, Post, Get, Body, UploadedFile, UseInterceptors, Res, Param } from '@nestjs/common'
+import { Controller, Post, Get, Body, UploadedFile, UseInterceptors, Res } from '@nestjs/common'
 import { DataService } from './data.service'
 import { DataDto } from './dto/data.dto'
 import { DataEntity } from './entities/data.entity'
-import { Injectable, NestMiddleware } from '@nestjs/common'
-import { Request, Response, NextFunction } from 'express'
 import { diskStorage } from 'multer'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { extname } from 'path'
-
-@Injectable()
-export class CorsMiddleware implements NestMiddleware {
-  use(req: Request, res: Response, next: NextFunction) {
-    res.header('Access-Control-Allow-Origin', '*')
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-    next()
-  }
-}
+import * as fs from 'fs'
+import * as path from 'path'
 
 @Controller('data')
 export class DataController {
@@ -36,19 +27,32 @@ export class DataController {
   @Post('upload')
   @UseInterceptors(FileInterceptor('image', {
     storage: diskStorage({
-      destination: './uploads', 
+      destination: path.join(__dirname, '..', 'uploads'),
       filename: (req, file, callback) => {
         const randomName = Array(32).fill(null).map(() => Math.round(Math.random() * 16).toString(16)).join('')
         callback(null, `${randomName}${extname(file.originalname)}`)
-      }
-    })
-}))
-async uploadImage(@UploadedFile() file): Promise<string> {
-  return file.path
-}
+      },
+    }),
+  }))
+  async uploadImage(@UploadedFile() file): Promise<string> {
+    return file.filename
+  }
 
-@Get('images/:imageName')
-  async getImage(@Param('imageName') imageName, @Res() res): Promise<any> {
-    return res.sendFile(imageName, { root: 'uploads' }) 
+  @Get('images')
+  async getAllImages(@Res() res): Promise<void> {
+    const directoryPath = path.join(__dirname, '..', 'uploads')
+
+    try {
+      const filenames = fs.readdirSync(directoryPath)
+
+      const imageUrls = filenames.map((filename) => {
+        return `http://localhost:5000/images/${filename}`
+      })
+
+      res.json(imageUrls)
+    } catch (error) {
+      console.error('Error fetching images:', error)
+      res.status(500).json({ error: 'Internal Server Error' })
+    }
   }
 }
